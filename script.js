@@ -1,6 +1,5 @@
-let currentQuestionIndex = -1;
+let currentQuestionIndex = 0; // Start with the first question
 let questions = [];
-let usedQuestions = [];
 let answerDisplayed = false;
 
 // Fetch questions from CSV file using PapaParse
@@ -10,34 +9,10 @@ function fetchQuestions() {
         header: true,
         dynamicTyping: true,
         complete: function (results) {
-            questions = results.data;
-            nextQuestion();
+            questions = results.data.sort((a, b) => a.QuestionNo - b.QuestionNo);
+            displayQuestion();
         }
     });
-}
-
-// Display a random question
-function nextQuestion() {
-    if (usedQuestions.length === questions.length) {
-        // All questions have been used, reset the usedQuestions array
-        usedQuestions = [];
-    }
-
-    // Get a random index that hasn't been used yet
-    let randomIndex;
-    do {
-        randomIndex = Math.floor(Math.random() * questions.length);
-    } while (usedQuestions.includes(randomIndex));
-
-    // Update currentQuestionIndex and usedQuestions array
-    currentQuestionIndex = randomIndex;
-    usedQuestions.push(randomIndex);
-
-    // Reset answerDisplayed flag
-    answerDisplayed = false;
-
-    // Display the random question
-    displayQuestion();
 }
 
 // Display the current question
@@ -79,6 +54,22 @@ function hideAnswer() {
     if (answerElement) {
         answerElement.parentNode.removeChild(answerElement);
         answerDisplayed = false;
+    }
+}
+
+// Display the next question in serial order
+function nextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+        currentQuestionIndex++;
+        displayQuestion();
+    }
+}
+
+// Display the previous question in serial order
+function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        displayQuestion();
     }
 }
 
