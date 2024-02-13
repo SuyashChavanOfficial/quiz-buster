@@ -28,30 +28,34 @@ function displayQuestion() {
 
 // Display the answer to the current question below the question
 function showAnswer() {
-    if (!answerDisplayed) {
-        const answer = questions[currentQuestionIndex].Answer;
+    const answerContainer = document.getElementById('answer-container');
+    answerContainer.innerHTML = ''; // Clear previous answers
+    
+    const answer = questions[currentQuestionIndex].Answer;
 
-        // Create a new h3 element for the answer
-        const answerElement = document.createElement('h3');
-        answerElement.id = 'answer';
-        answerElement.textContent = `Answer: ${answer}`;
+    // Create a new h3 element for the answer
+    const answerElement = document.createElement('h3');
+    answerElement.id = 'answer';
+    answerElement.textContent = `Answer: ${answer}`;
 
-        // Apply styles and animations to the answer
-        answerElement.style.color = '#0066cc'; // Change the color to blue
-        answerElement.style.fontWeight = 'bold'; // Make it bold
-        answerElement.classList.add('answer-animation'); // Add a CSS class for animations
+    // Apply styles and animations to the answer
+    answerElement.style.color = 'black';
+    answerElement.style.backgroundColor = 'rgb(244, 236, 13)';
+    answerElement.style.fontWeight = 'bold';
+    answerElement.style.padding = '5px';
+    answerElement.style.borderRadius = '20px';
+    answerElement.classList.add('answer-animation');
 
-        // Append the answer below the question
-        const questionContainer = document.getElementById('question-container');
-        questionContainer.appendChild(answerElement);
+    // Append the answer to the answer container
+    answerContainer.appendChild(answerElement);
+    
+    // Set answerDisplayed flag to true
+    answerDisplayed = true;
 
-        // Set answerDisplayed flag to true
-        answerDisplayed = true;
-
-        // Start the timer when the answer is displayed
-        startTimer();
-    }
+    // Start the timer when the answer is displayed
+    startTimer();
 }
+
 
 // Hide the answer for the current question
 function hideAnswer() {

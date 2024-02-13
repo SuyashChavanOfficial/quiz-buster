@@ -47,6 +47,11 @@ body {
     font-size: 40px;
 }
 
+#answer-container {
+    margin: 20px auto;
+    color: rgb(244, 236, 13);
+}
+
 button {
     padding: 10px;
     border-radius: 20px;
@@ -76,5 +81,24 @@ button {
 @keyframes blink {
     50% {
         opacity: 0;
+    }
+}
+
+.button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button {
+    padding: 10px;
+    border-radius: 20px;
+    margin: 20px;
+}
+
+/* Add media query for smaller screens if needed */
+@media (max-width: 600px) {
+    .button-container {
+        flex-direction: column;
     }
 }

@@ -17,13 +17,21 @@
                     <span id="timer">30</span>
                 </div>
                 <h2 id="question">Question</h2>
-                <button id="previous-btn" onclick="previousQuestion()">Previous Question</button>
-                <button id="next-btn" onclick="nextQuestion()">Next Question</button>
-                <button id="answer-btn" onclick="showAnswer()">Show Answer</button>
-                <button id="hide-answer-btn" onclick="hideAnswer()">Hide Answer</button>
-                <button id="start-timer-btn" onclick="startTimer()">Start Timer</button>
-                
+                <div id="answer-container"></div> 
+                <div class="button-container">
+                    <button id="previous-btn" onclick="previousQuestion()">Previous Question</button>
+                    <button id="next-btn" onclick="nextQuestion()">Next Question</button>
+                </div>
+                <div class="button-container">
+                    <button id="answer-btn" onclick="showAnswer()">Show Answer</button>
+                    <button id="hide-answer-btn" onclick="hideAnswer()">Hide Answer</button>
+                </div>
+                <div class="button-container">
+                    <button id="start-timer-btn" onclick="startTimer()">Start Timer</button>
+                    <a href="Host/host.html"><button id="start-timer-btn" onclick="startTimer()">Host page</button></a>
+                </div>
             </div>
+            
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
