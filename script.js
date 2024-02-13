@@ -2,6 +2,12 @@ let currentQuestionIndex = 0; // Start with the first question
 let questions = [];
 let answerDisplayed = false;
 let timerInterval;
+let audio = new Audio('timer.mp3');
+let isAudioPlaying = false;
+
+audio.addEventListener('ended', function() {
+    isAudioPlaying = false;
+});
 
 // Fetch questions from CSV file using PapaParse
 function fetchQuestions() {
@@ -52,9 +58,9 @@ function showAnswer() {
     // Set answerDisplayed flag to true
     answerDisplayed = true;
 
-    // Start the timer when the answer is displayed
-    startTimer();
+    
 }
+
 
 
 // Hide the answer for the current question
@@ -85,8 +91,9 @@ function previousQuestion() {
 // Start the timer countdown
 function startTimer() {
     resetTimer();
+    playAudio();
 
-    let seconds = 30;
+    let seconds = 30; // Set timer duration to match audio duration
     const timerElement = document.getElementById('timer');
 
     timerInterval = setInterval(function () {
@@ -105,6 +112,14 @@ function startTimer() {
             timerElement.classList.add('blink'); // Add a class for blinking effect
         }
     }, 1000);
+}
+
+
+// Stop the timer and pause the audio
+function stopTimer() {
+    resetTimer();
+    clearInterval(timerInterval);
+    stopAudio();
 }
 
 // Update timer styles based on seconds
@@ -132,5 +147,24 @@ function resetTimer() {
     timerElement.classList.remove('blink'); // Remove the blinking effect class
 }
 
+// Play the audio
+function playAudio() {
+    if (!isAudioPlaying) {
+        audio.play();
+        isAudioPlaying = true;
+    }
+}
+
+// Stop the audio
+function stopAudio() {
+    audio.pause();
+    audio.currentTime = 0;
+    isAudioPlaying = false;
+}
+
 // Initialize the page
 document.addEventListener('DOMContentLoaded', fetchQuestions);
+const stopTimerBtn = document.getElementById('stop-timer-btn');
+if (stopTimerBtn) {
+    stopTimerBtn.addEventListener('click', stopTimer);
+}
