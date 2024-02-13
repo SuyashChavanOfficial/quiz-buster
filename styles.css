@@ -56,12 +56,17 @@ button {
 /* Add your existing styles here */
 
 #timer-container {
-    margin-top: 20px;
+    margin: 40px 0;
+    
+
 }
 
 #timer {
-    font-size: 24px;
+    font-size: 70px;
     font-weight: bold;
+    padding: 20px;
+    border-radius: 50%;
+    transition: background-color 0.5s ease;
 }
 
 .blink {

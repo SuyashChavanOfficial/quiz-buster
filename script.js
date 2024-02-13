@@ -84,13 +84,16 @@ function startTimer() {
 
     let seconds = 30;
     const timerElement = document.getElementById('timer');
-    timerElement.textContent = seconds;
 
     timerInterval = setInterval(function () {
         seconds--;
 
-        // Display the timer value
-        timerElement.textContent = seconds;
+        // Display the timer value with 2 digits
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+        timerElement.textContent = formattedSeconds;
+
+        // Update styles based on seconds
+        updateTimerStyles(seconds);
 
         // Check if the timer reaches 0
         if (seconds === 0) {
@@ -100,11 +103,28 @@ function startTimer() {
     }, 1000);
 }
 
+// Update timer styles based on seconds
+function updateTimerStyles(seconds) {
+    const timerElement = document.getElementById('timer');
+    if (seconds > 20) {
+        timerElement.style.backgroundColor = 'green';
+        timerElement.style.color = 'white'; // Set text color to white
+    } else if (seconds > 10) {
+        timerElement.style.backgroundColor = 'yellow';
+        timerElement.style.color = 'black'; // Set text color to black
+    } else {
+        timerElement.style.backgroundColor = 'red';
+        timerElement.style.color = 'white'; // Set text color to white
+    }
+}
+
 // Reset the timer
 function resetTimer() {
     clearInterval(timerInterval);
     const timerElement = document.getElementById('timer');
     timerElement.textContent = '30';
+    timerElement.style.backgroundColor = 'green'; // Reset background color
+    timerElement.style.color = ''; // Reset text color
     timerElement.classList.remove('blink'); // Remove the blinking effect class
 }
 
