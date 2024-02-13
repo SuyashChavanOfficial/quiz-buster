@@ -53,3 +53,23 @@ button {
     margin: 20px;
 }
 
+/* Add your existing styles here */
+
+#timer-container {
+    margin-top: 20px;
+}
+
+#timer {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.blink {
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
