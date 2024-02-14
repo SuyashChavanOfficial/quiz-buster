@@ -3,7 +3,7 @@ let questions = [];
 
 // Fetch questions from CSV file using PapaParse
 function fetchQuestions() {
-    Papa.parse('questions.csv', {
+    Papa.parse('../questions.csv', {
         download: true,
         header: true,
         dynamicTyping: true,

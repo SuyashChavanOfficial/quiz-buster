@@ -30,7 +30,7 @@ body {
 }
 
 #question-container {
-    max-width: 600px;
+    max-width: 720px;
     margin: 0 auto;
 }
 
@@ -97,8 +97,8 @@ button {
 }
 
 /* Add media query for smaller screens if needed */
-@media (max-width: 600px) {
+@media (max-width: 720px) {
     .button-container {
         flex-direction: column;
-    }
+    }   
 }
