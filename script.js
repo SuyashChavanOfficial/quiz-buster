@@ -4,6 +4,7 @@ let answerDisplayed = false;
 let timerInterval;
 let audio = new Audio('timer.mp3');
 let isAudioPlaying = false;
+let currentTimerValue = 30; // Initial timer value
 
 audio.addEventListener('ended', function() {
     isAudioPlaying = false;
@@ -115,10 +116,11 @@ function startTimer() {
 }
 
 
-// Stop the timer and pause the audio
+// Stop the timer and store the current timer value
 function stopTimer() {
-    resetTimer();
     clearInterval(timerInterval);
+    const timerElement = document.getElementById('timer');
+    currentTimerValue = parseInt(timerElement.textContent); // Store the current timer value
     stopAudio();
 }
 
@@ -137,11 +139,10 @@ function updateTimerStyles(seconds) {
     }
 }
 
-// Reset the timer
+// Reset the timer with the stored value
 function resetTimer() {
-    clearInterval(timerInterval);
     const timerElement = document.getElementById('timer');
-    timerElement.textContent = '30';
+    timerElement.textContent = currentTimerValue; // Set the timer to the stored value
     timerElement.style.backgroundColor = 'green'; // Reset background color
     timerElement.style.color = ''; // Reset text color
     timerElement.classList.remove('blink'); // Remove the blinking effect class
