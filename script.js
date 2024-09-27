@@ -10,6 +10,15 @@ audio.addEventListener('ended', function () {
     isAudioPlaying = false;
 });
 
+function resetTimerStyles() {
+    const timerElement = document.getElementById('timer');
+    
+    // Set initial styles, including a thick border
+    timerElement.style.backgroundColor = 'green';  
+    timerElement.style.color = 'white';            
+    timerElement.style.border = '20px solid darkgreen'; // Start with the maximum border width
+}
+
 // Fetch questions from CSV file using PapaParse
 function fetchQuestions() {
     Papa.parse('questions.csv', {
@@ -34,6 +43,7 @@ function displayQuestion() {
     // Remove any previously displayed answer and reset the timer
     hideAnswer();
     resetTimer();
+    resetTimerStyles();  // Reset the timer styles
 }
 
 // Display the answer to the current question
@@ -86,27 +96,28 @@ function previousQuestion() {
 
 // Start the timer countdown from the current point
 function startTimer() {
-    if (!timerInterval) {
-        playAudio();
+    resetTimer();
+    playAudio();
 
-        let seconds = currentTimerValue; // Start from the current stored value
-        const timerElement = document.getElementById('timer');
+    let seconds = 30; // Set timer duration to match audio duration
+    const timerElement = document.getElementById('timer');
 
-        timerInterval = setInterval(function () {
-            seconds--;
-            currentTimerValue = seconds; // Update current timer value
+    timerInterval = setInterval(function () {
+        seconds--;
 
-            const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-            timerElement.textContent = formattedSeconds;
-            updateTimerStyles(seconds);
+        // Display the timer value with 2 digits
+        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+        timerElement.textContent = formattedSeconds;
 
-            if (seconds === 0) {
-                clearInterval(timerInterval);
-                timerElement.classList.add('blink'); // Blink when time is up
-                timerInterval = null; // Reset interval reference
-            }
-        }, 1000);
-    }
+        // Update the border and background based on the remaining time
+        updateTimerStyles(seconds);
+
+        // Check if the timer reaches 0
+        if (seconds === 0) {
+            clearInterval(timerInterval);
+            timerElement.classList.add('blink'); // Add a class for blinking effect
+        }
+    }, 1000);
 }
 
 // Stop the timer
@@ -129,15 +140,27 @@ function resetTimer() {
 // Update timer styles based on seconds
 function updateTimerStyles(seconds) {
     const timerElement = document.getElementById('timer');
+    
+    // Calculate the border width based on the remaining time
+    const maxBorderWidth = 20; // Set the maximum border width (at 30 seconds)
+    const minBorderWidth = 2;  // Set the minimum border width (at 0 seconds)
+    
+    // Linearly calculate the current border width based on the remaining time
+    const borderWidth = minBorderWidth + ((seconds / 30) * (maxBorderWidth - minBorderWidth));
+    
+    // Apply dynamic styles based on the seconds left
     if (seconds > 20) {
         timerElement.style.backgroundColor = 'green';
         timerElement.style.color = 'white';
+        timerElement.style.border = `${borderWidth}px solid darkgreen`;
     } else if (seconds > 10) {
         timerElement.style.backgroundColor = 'yellow';
         timerElement.style.color = 'black';
+        timerElement.style.border = `${borderWidth}px solid goldenrod`;
     } else {
         timerElement.style.backgroundColor = 'red';
         timerElement.style.color = 'white';
+        timerElement.style.border = `${borderWidth}px solid darkred`;
     }
 }
 
