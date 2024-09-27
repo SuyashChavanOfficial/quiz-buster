@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Knowledge Buster</title>
+
     <link rel="stylesheet" href="styles.css">
+    <!-- Flaticon Link -->
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
 </head>
 
 <body>
@@ -19,22 +22,23 @@
 
                 <h2 id="question">Question</h2>
 
-                <div id="answer-container"></div> 
+                <div id="answer-container"></div>
 
-                <div class="button-container">
-                    <button id="previous-btn" onclick="previousQuestion()">Previous Question</button>
-                    <button id="next-btn" onclick="nextQuestion()">Next Question</button>
-                </div>
                 <div class="button-container">
                     <button id="timer-btn" onclick="toggleTimer()">Start Timer</button>
                     <button id="answer-btn" onclick="toggleAnswer()">Show Answer</button>
                 </div>
+
                 <div class="button-container">
                     <a href="Host/host.html"><button id="start-timer-btn" onclick="startTimer()">Host page</button></a>
                 </div>
             </div>
 
         </div>
+
+        <div id="left-arrow" class="arrow" onclick="previousQuestion()"><i class="fi fi-br-angle-small-left"></i></div>
+        <div id="right-arrow" class="arrow" onclick="nextQuestion()"><i class="fi fi-br-angle-small-right"></i></div>
+
         <audio src="timer.mp3"></audio>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>

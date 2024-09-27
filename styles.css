@@ -56,10 +56,33 @@ button {
     margin: 20px;
 }
 
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 50px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    z-index: 1000;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+#left-arrow {
+    left: 20px; /* Position on the left side */
+}
+
+#right-arrow {
+    right: 20px; /* Position on the right side */
+}
+
+.arrow:hover {
+    color: purple /* Darker background on hover */
+}
+
 #timer-container {
     margin: 50px 0;
-    
-
 }
 
 #timer {
