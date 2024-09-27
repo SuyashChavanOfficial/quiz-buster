@@ -6,7 +6,7 @@ let audio = new Audio('timer.mp3');
 let isAudioPlaying = false;
 let currentTimerValue = 30; // Initial timer value
 
-audio.addEventListener('ended', function() {
+audio.addEventListener('ended', function () {
     isAudioPlaying = false;
 });
 
@@ -19,6 +19,9 @@ function fetchQuestions() {
         complete: function (results) {
             questions = results.data.sort((a, b) => a.QuestionNo - b.QuestionNo);
             displayQuestion();
+        },
+        error: function (err) {
+            console.error('Error loading questions:', err);
         }
     });
 }
@@ -33,36 +36,24 @@ function displayQuestion() {
     resetTimer();
 }
 
-// Display the answer to the current question below the question
+// Display the answer to the current question
 function showAnswer() {
     const answerContainer = document.getElementById('answer-container');
     answerContainer.innerHTML = ''; // Clear previous answers
-    
-    const answer = questions[currentQuestionIndex].Answer;
 
-    // Create a new h3 element for the answer
+    const answer = questions[currentQuestionIndex].Answer;
     const answerElement = document.createElement('h3');
     answerElement.id = 'answer';
     answerElement.textContent = `Answer: ${answer}`;
-
-    // Apply styles and animations to the answer
     answerElement.style.color = 'black';
     answerElement.style.backgroundColor = 'rgb(244, 236, 13)';
     answerElement.style.fontWeight = 'bold';
     answerElement.style.padding = '5px';
     answerElement.style.borderRadius = '20px';
-    answerElement.classList.add('answer-animation');
-
-    // Append the answer to the answer container
     answerContainer.appendChild(answerElement);
     
-    // Set answerDisplayed flag to true
     answerDisplayed = true;
-
-    
 }
-
-
 
 // Hide the answer for the current question
 function hideAnswer() {
@@ -73,55 +64,66 @@ function hideAnswer() {
     }
 }
 
-// Display the next question in serial order
+// Display the next question
 function nextQuestion() {
     if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
         displayQuestion();
+        stopTimer(); // Stop the timer when switching questions
+        resetTimer(); // Reset timer to 30 seconds
     }
 }
 
-// Display the previous question in serial order
+// Display the previous question
 function previousQuestion() {
     if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
         displayQuestion();
+        stopTimer(); // Stop the timer when switching questions
+        resetTimer(); // Reset timer to 30 seconds
     }
 }
 
-// Start the timer countdown
+// Start the timer countdown from the current point
 function startTimer() {
-    resetTimer();
-    playAudio();
+    if (!timerInterval) {
+        playAudio();
 
-    let seconds = 30; // Set timer duration to match audio duration
-    const timerElement = document.getElementById('timer');
+        let seconds = currentTimerValue; // Start from the current stored value
+        const timerElement = document.getElementById('timer');
 
-    timerInterval = setInterval(function () {
-        seconds--;
+        timerInterval = setInterval(function () {
+            seconds--;
+            currentTimerValue = seconds; // Update current timer value
 
-        // Display the timer value with 2 digits
-        const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
-        timerElement.textContent = formattedSeconds;
+            const formattedSeconds = seconds < 10 ? `0${seconds}` : seconds;
+            timerElement.textContent = formattedSeconds;
+            updateTimerStyles(seconds);
 
-        // Update styles based on seconds
-        updateTimerStyles(seconds);
-
-        // Check if the timer reaches 0
-        if (seconds === 0) {
-            clearInterval(timerInterval);
-            timerElement.classList.add('blink'); // Add a class for blinking effect
-        }
-    }, 1000);
+            if (seconds === 0) {
+                clearInterval(timerInterval);
+                timerElement.classList.add('blink'); // Blink when time is up
+                timerInterval = null; // Reset interval reference
+            }
+        }, 1000);
+    }
 }
 
-
-// Stop the timer and store the current timer value
+// Stop the timer
 function stopTimer() {
     clearInterval(timerInterval);
-    const timerElement = document.getElementById('timer');
-    currentTimerValue = parseInt(timerElement.textContent); // Store the current timer value
+    timerInterval = null; // Reset interval reference to avoid multiple timers
     stopAudio();
+}
+
+// Reset the timer to 30 seconds
+function resetTimer() {
+    currentTimerValue = 30; // Reset timer value to 30 seconds
+    const timerElement = document.getElementById('timer');
+    timerElement.textContent = currentTimerValue;
+    timerElement.style.backgroundColor = 'green';
+    timerElement.style.color = 'white';
+    timerElement.classList.remove('blink');
 }
 
 // Update timer styles based on seconds
@@ -129,23 +131,14 @@ function updateTimerStyles(seconds) {
     const timerElement = document.getElementById('timer');
     if (seconds > 20) {
         timerElement.style.backgroundColor = 'green';
-        timerElement.style.color = 'white'; // Set text color to white
+        timerElement.style.color = 'white';
     } else if (seconds > 10) {
         timerElement.style.backgroundColor = 'yellow';
-        timerElement.style.color = 'black'; // Set text color to black
+        timerElement.style.color = 'black';
     } else {
         timerElement.style.backgroundColor = 'red';
-        timerElement.style.color = 'white'; // Set text color to white
+        timerElement.style.color = 'white';
     }
-}
-
-// Reset the timer with the stored value
-function resetTimer() {
-    const timerElement = document.getElementById('timer');
-    timerElement.textContent = currentTimerValue; // Set the timer to the stored value
-    timerElement.style.backgroundColor = 'green'; // Reset background color
-    timerElement.style.color = ''; // Reset text color
-    timerElement.classList.remove('blink'); // Remove the blinking effect class
 }
 
 // Play the audio
@@ -165,6 +158,7 @@ function stopAudio() {
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', fetchQuestions);
+
 const stopTimerBtn = document.getElementById('stop-timer-btn');
 if (stopTimerBtn) {
     stopTimerBtn.addEventListener('click', stopTimer);
