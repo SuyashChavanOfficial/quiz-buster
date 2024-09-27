@@ -45,9 +45,23 @@ body {
     font-size: 40px;
 }
 
+/* Answer container with fade-in and fade-out animation */
 #answer-container {
-    margin: 20px auto;
-    color: rgb(244, 236, 13);
+    transition: opacity 0.3s ease-in, visibility 0.3s ease-out;
+    opacity: 0; /* Initially hidden */
+    visibility: hidden; /* Initially hidden */
+}
+
+/* Show the answer container with fade-in effect */
+#answer-container.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide the answer container with fade-out effect */
+#answer-container.hide {
+    opacity: 0;
+    visibility: hidden;
 }
 
 button {
@@ -110,6 +124,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin: 20px auto;
 }
 
 button {

@@ -49,7 +49,9 @@ function displayQuestion() {
 }
 
 function toggleAnswer() {
+    const answerContainer = document.getElementById('answer-container');
     const answerBtn = document.getElementById('answer-btn');
+
     if (isAnswerVisible) {
         hideAnswer();
         answerBtn.textContent = 'Show Answer';
@@ -59,33 +61,42 @@ function toggleAnswer() {
     }
     isAnswerVisible = !isAnswerVisible; // Toggle the answer visibility
 }
-
 // Display the answer to the current question
 function showAnswer() {
     const answerContainer = document.getElementById('answer-container');
-    answerContainer.innerHTML = ''; // Clear previous answers
-
     const answer = questions[currentQuestionIndex].Answer;
+    
+    // Create and append answer content
     const answerElement = document.createElement('h3');
     answerElement.id = 'answer';
     answerElement.textContent = `Answer: ${answer}`;
     answerElement.style.color = 'black';
     answerElement.style.backgroundColor = 'rgb(244, 236, 13)';
     answerElement.style.fontWeight = 'bold';
-    answerElement.style.padding = '5px';
+    answerElement.style.padding = '10px';
     answerElement.style.borderRadius = '20px';
     answerContainer.appendChild(answerElement);
-    
-    answerDisplayed = true;
+
+    // Apply show animation
+    answerContainer.classList.add('show');
+    answerContainer.classList.remove('hide');
 }
 
 // Hide the answer for the current question
 function hideAnswer() {
-    const answerElement = document.getElementById('answer');
-    if (answerElement) {
-        answerElement.parentNode.removeChild(answerElement);
-        answerDisplayed = false;
-    }
+    const answerContainer = document.getElementById('answer-container');
+    
+    // Apply hide animation
+    answerContainer.classList.add('hide');
+    answerContainer.classList.remove('show');
+    
+    // Remove answer element after the fade-out animation is complete
+    setTimeout(() => {
+        const answerElement = document.getElementById('answer');
+        if (answerElement) {
+            answerElement.parentNode.removeChild(answerElement);
+        }
+    }, 500); // Delay to match the fade-out duration
 }
 
 // Display the next question
