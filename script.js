@@ -5,6 +5,8 @@ let timerInterval;
 let audio = new Audio('timer.mp3');
 let isAudioPlaying = false;
 let currentTimerValue = 30; // Initial timer value
+let isTimerRunning = false; // To track timer state
+let isAnswerVisible = false; // To track answer visibility
 
 audio.addEventListener('ended', function () {
     isAudioPlaying = false;
@@ -44,6 +46,18 @@ function displayQuestion() {
     hideAnswer();
     resetTimer();
     resetTimerStyles();  // Reset the timer styles
+}
+
+function toggleAnswer() {
+    const answerBtn = document.getElementById('answer-btn');
+    if (isAnswerVisible) {
+        hideAnswer();
+        answerBtn.textContent = 'Show Answer';
+    } else {
+        showAnswer();
+        answerBtn.textContent = 'Hide Answer';
+    }
+    isAnswerVisible = !isAnswerVisible; // Toggle the answer visibility
 }
 
 // Display the answer to the current question
@@ -92,6 +106,18 @@ function previousQuestion() {
         stopTimer(); // Stop the timer when switching questions
         resetTimer(); // Reset timer to 30 seconds
     }
+}
+
+function toggleTimer() {
+    const timerBtn = document.getElementById('timer-btn');
+    if (isTimerRunning) {
+        stopTimer();
+        timerBtn.textContent = 'Start Timer';
+    } else {
+        startTimer();
+        timerBtn.textContent = 'Stop Timer';
+    }
+    isTimerRunning = !isTimerRunning; // Toggle the timer state
 }
 
 // Start the timer countdown from the current point
